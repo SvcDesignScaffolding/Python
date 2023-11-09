@@ -35,15 +35,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: build
 
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends build-essential python3-dev python3-pip
 
+      - name: Run App
+        run: |
+          uvicorn app:app --host 0.00.0.0 --port 80 --reload
+
       - name: Run tests
         run: |
-          pip3 install -r requirements.txt
           pytest test/example_pkg/test_core.py
   docker-image:
     runs-on: ubuntu-latest
