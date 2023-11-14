@@ -11,4 +11,4 @@ FROM python:3.10-slim-buster
 
 WORKDIR /app
 COPY --from=builder /app/dist .
-CMD uvicorn app:app --host 0.00.0.0 --port 8000 --reload
+CMD uvicorn app:app --host 0.0.0.0 --port 8000 --reload

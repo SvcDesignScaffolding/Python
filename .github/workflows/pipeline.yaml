@@ -26,11 +26,11 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends build-essential python3-dev python3-pip
+          sudo apt-get install -y --no-install-recommends python3-pip
+          pip3 install -r requirements.txt
 
       - name: Build
         run: |
-          pip3 install -r requirements.txt
           python3 setup.py build
 
   test:
@@ -38,22 +38,25 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: build
 
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends build-essential python3-dev python3-pip
+          sudo apt-get install -y --no-install-recommends uvicorn python3-pip
+          sudo pip3 install -r requirements.txt
+
+      - name: Build && Install
+        run: |
+          python3 setup.py build
+          sudo python3 setup.py install
 
       - name: Run App
         run: |
-          uvicorn app:app --host 0.0.0.0 --port 80 --reload
+          nohup sudo uvicorn app:app --app-dir build/lib/example_pkg --host 0.0.0.0 --port 80 --reload &> /tmp/aap.log &
 
       - name: Run tests
         run: |
-          pytest test/example_pkg/test_core.py
+          sudo pytest test/example_pkg/core.py 
   docker-image:
     runs-on: ubuntu-latest
     name: Build image
