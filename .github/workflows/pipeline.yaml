@@ -43,7 +43,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends uvicorn python3-pip
-          sudo pip3 install -r requirements.txt
+          pip3 install -r requirements.txt
 
       - name: Build && Install
         run: |
