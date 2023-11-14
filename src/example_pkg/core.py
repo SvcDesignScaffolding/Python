@@ -7,7 +7,7 @@ class User(BaseModel):
     name: str
     age: int
 
-app = fastapi.FastAPI()
+app = FastAPI()
 
 # 设置 CORS 中间件
 app.add_middleware(
