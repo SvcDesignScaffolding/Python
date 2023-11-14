@@ -52,7 +52,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest -v tests/
+          sudo pytest -v tests/
   docker-image:
     runs-on: ubuntu-latest
     name: Build image
