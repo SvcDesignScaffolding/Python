@@ -8,4 +8,8 @@ setup(
     include_package_data=True,
     python_requires=">=3.8",
     install_requires=["fastapi", "pydantic", "pytest"],
+    tests_require=["pytest", "pytest-cov"],
+    package_data={
+      "example_pkg": ["tests/*.py"],
+    },
 )

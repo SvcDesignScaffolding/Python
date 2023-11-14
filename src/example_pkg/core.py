@@ -1,27 +1,34 @@
 from fastapi import FastAPI
-from fastapi.requests import Request
+from fastapi import Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-class Request(BaseModel):
+class User(BaseModel):
     name: str
+    age: int
 
-def after_request(request: Request):
-    print(f"Request processed: {request.url}")
+app = fastapi.FastAPI()
 
-app = FastAPI()
-# 配置域名 允许方法 请求头 cookie等
-app.add_middleware (
-	CORSMiddleware,
-	allow_origins=['*'],
-	allow_methods=["*"],
-        allow_headers=["*"],
-	allow_credentials=True,
+# 设置 CORS 中间件
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
 )
-app.add_middleware(after_request)
 
+# 定义一个路由
 @app.get("/")
-def index(request: Request):
-    if request.name is None:
-        raise HTTPException(status_code=400, detail="name 参数不能为空")
-    return {"message": f"Hello, {request.name}!"}
+def index():
+    return {"message": "Hello, world!"}
+
+
+# 定义一个路由，接受一个 User 对象作为请求体
+@app.post("/user")
+def create_user(user: User):
+    return user
+
+
+# 启动 app
+if __name__ == "__main__":
+    app.run(debug=True)
