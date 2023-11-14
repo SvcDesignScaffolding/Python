@@ -50,10 +50,6 @@ jobs:
           python3 setup.py build
           sudo python3 setup.py install
 
-      - name: Run App
-        run: |
-          nohup sudo uvicorn app:app --app-dir build/lib/example_pkg --host 0.0.0.0 --port 80 --reload &> /tmp/aap.log &
-
       - name: Run tests
         run: |
           pytest -v tests/

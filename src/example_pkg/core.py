@@ -1,3 +1,4 @@
+from uvicorn import run
 from fastapi import FastAPI
 from fastapi import Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -31,4 +32,4 @@ def create_user(user: User):
 
 # 启动 app
 if __name__ == "__main__":
-    app.run(debug=True)
+    run(app, host="0.0.0.0", port=80, reload=True)
