@@ -7,5 +7,5 @@ setup(
     package_dir={"example_pkg": "src/example_pkg"},
     include_package_data=True,
     python_requires=">=3.8",
-    install_requires=["fastapi", "pydantic", "flask-cors", "pytest"],
+    install_requires=["fastapi", "pydantic", "pytest"],
 )
