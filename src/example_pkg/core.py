@@ -1,13 +1,17 @@
 from fastapi import FastAPI
+from fastapi.requests import Request
+from fastapi.middleware.cors import CORS
 from pydantic import BaseModel
-from flask_cors import CORS
 
 class Request(BaseModel):
     name: str
 
-app = FastAPI()
+def after_request(request: Request):
+    print(f"Request processed: {request.url}")
 
+app = FastAPI()
 CORS(app)
+app.add_middleware(after_request)
 
 @app.get("/")
 def index(request: Request):
