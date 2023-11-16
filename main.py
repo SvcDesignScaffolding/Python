@@ -1,4 +1,5 @@
 # main.py
+from uvicorn import run
 from example_pkg import core
 
 app = core.create_app()

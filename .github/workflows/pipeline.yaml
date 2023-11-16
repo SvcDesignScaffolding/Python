@@ -31,7 +31,17 @@ jobs:
 
       - name: Build
         run: |
-          python3 setup.py build
+          python3 -m pip install build
+          python3 -m build
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          asset_name: python3-fastapi-app
+          file: dist/*
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "Release v0.1.0"
 
   test:
     runs-on: ubuntu-latest
@@ -47,8 +57,9 @@ jobs:
 
       - name: Build && Install
         run: |
-          python3 setup.py build
-          sudo python3 setup.py install
+          python3 -m pip install build
+          python3 -m build
+          pip3 install dist/example_pkg-0.1.0.tar.gz
 
       - name: Run tests
         run: |
