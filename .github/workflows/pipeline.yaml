@@ -38,7 +38,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           asset_name: python3-fastapi-app
-          file: dist/*
+          file: dist/example_pkg-0.1.0.tar.gz
           tag: ${{ github.ref }}
           overwrite: true
           body: "Release v0.1.0"
