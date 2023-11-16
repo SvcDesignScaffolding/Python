@@ -1,8 +1,13 @@
 # main.py
-from uvicorn import run
-from example_pkg import core
+from flask import Flask
+from flask_cors import CORS
+from example_pkg.core import index_view, create_user
 
-app = core.create_app()
+app = Flask(__name__)
+CORS(app, origins="*")
+
+app.add_url_rule("/", endpoint="index", view_func=index_view)
+app.add_url_rule("/user", methods=["POST"], view_func=create_user)
 
 if __name__ == "__main__":
-    run(app, host="0.0.0.0", port=80, reload=True)
+    app.run(host="0.0.0.0", port=80)

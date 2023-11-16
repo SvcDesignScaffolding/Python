@@ -1,9 +1,8 @@
-# tests/functional/test_main.py
 import pytest
-from uvicorn import run
+from example_pkg.core import index_view, create_user
 
-from example_pkg.core import app
-
-
-def test_main():
-    run(app, host="0.0.0.0", port=80, debug=True)
+def test_index_view():
+    response = index_view()
+    assert response.status_code == 200
+    assert response.headers["Content-Type"] == "application/json"
+    assert response.get_data() == b'{"message": "Hello, world!"}'

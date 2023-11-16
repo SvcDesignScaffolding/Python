@@ -37,7 +37,7 @@ jobs:
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
-          asset_name: python3-fastapi-app
+          asset_name: example_pkg-0.1.0.tar.gz
           file: dist/example_pkg-0.1.0.tar.gz
           tag: ${{ github.ref }}
           overwrite: true
@@ -63,7 +63,7 @@ jobs:
 
       - name: Run tests
         run: |
-          sudo pytest -v tests/
+          pytest -v tests/
   docker-image:
     runs-on: ubuntu-latest
     name: Build image

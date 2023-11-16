@@ -1,31 +1,23 @@
-import pytest
-from example_pkg.core import app
+import json
+import unittest
+from unittest.mock import patch
+from flask import Flask
+from example_pkg.core import create_user
 
-def test_index():
-    response = app.get("/")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Hello, world!"}
+class TestCreateUser(unittest.TestCase):
+    def setUp(self):
+        # 创建一个测试 Flask 应用
+        self.app = Flask(__name__)
 
-def test_create_user():
-    user = {"name": "John Doe", "age": 30}
-    response = app.post("/user", json=user)
-    assert response.status_code == 200
-    assert response.json() == user
+    def test_create_user_valid_input(self):
+        with self.app.test_request_context('/user', method='POST', json={"username": "test_user", "age": 25}):
+            response = create_user()
+            data = json.loads(response.get_data(as_text=True))
 
-def test_create_user_valid_data():
-    user = {"name": "John Doe", "age": 30}
-    response = app.post("/user", json=user)
-    assert response.status_code == 200
-    assert response.json() == user
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["username"], "test_user")
+            self.assertEqual(data["age"], 25)
 
-def test_create_user_missing_name():
-    user = {"age": 30}
-    response = app.post("/user", json=user)
-    assert response.status_code == 400
-    assert response.json() == {"detail": "Missing name field in request body"}
 
-def test_create_user_missing_age():
-    user = {"name": "John Doe"}
-    response = app.post("/user", json=user)
-    assert response.status_code == 400
-    assert response.json() == {"detail": "Missing age field in request body"}
+if __name__ == '__main__':
+    unittest.main()
